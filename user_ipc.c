@@ -15,6 +15,7 @@
 char *return_codes[]={
     "Operation Success",
     "Topic is Empty",
+    "Topic is full",
     "Topic Name Length Exceeded",
     "Topic Not Available",
     "Topic Not Subscribed",
