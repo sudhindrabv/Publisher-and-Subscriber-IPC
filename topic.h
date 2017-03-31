@@ -34,7 +34,7 @@ struct SubscriberList
 	int count;
 };
 
-struct MessageItem //Represents each message
+struct MessageItem
 {
 	char msg[MAX_MSG_LENGTH];
 	int subsList[MAX_SUBSCRIBERS];
@@ -57,15 +57,10 @@ struct TopicList
 };
 
 struct TopicList TopicsList[MAX_TOPICS];
+
 int topicCount;
-
 void init_topic();
-// TODO: Remove below lines
-/*int getPublisherIndex(int topic_index, int pub_id); 
-int getSubsInd(int topic_index, int pub_id);
-int get_next_mesg_from_topic(int topic_index);*/
 int findEmptyItemSlot(int topic_index);
-
 
 StatusCodes add_topic(char topic_name[]);
 StatusCodes add_publisher_to_topic(char topic_name[], int pubId);

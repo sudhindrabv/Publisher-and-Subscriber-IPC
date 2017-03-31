@@ -506,7 +506,6 @@ Team 8 :: Chethan, Sudhindra, Shashank
 int topic_init(void)
 {
     topic_init();
-    
     return 1;
 }
 
@@ -527,10 +526,10 @@ int topic_lookup(void)
     char msg[MAX_TOPICS_SIZE];
     
     StatusCodes mec = lookup_topics(msg);
-
     if(mec == 0){
         sys_datacopy(PM_PROC_NR, (vir_bytes) (msg), m_in.m_source, (vir_bytes) m_in.m1_p1, MAX_TOPICS_SIZE);
     }
+    
     return mec;
 }
 
@@ -541,7 +540,6 @@ int topic_publisher(void)
     sys_datacopy(m_in.m_source, (vir_bytes) m_in.m1_p1, PM_PROC_NR, (vir_bytes)topic_name, MAX_TOPIC_NAME_LENGTH);
 
     int pubId = m_in.m1_i1;
-
     StatusCodes mec = add_publisher_to_topic(topic_name, pubId);
 
     return mec;
@@ -553,7 +551,6 @@ int topic_subscriber(void)
     sys_datacopy(m_in.m_source, (vir_bytes) m_in.m1_p1, PM_PROC_NR, (vir_bytes)topic_name, MAX_TOPIC_NAME_LENGTH);
     
     int subId = m_in.m1_i1;
-    
     StatusCodes mec = add_subscriber_to_topic(topic_name, subId);
     
     return mec;
@@ -562,7 +559,6 @@ int topic_subscriber(void)
 
 int topic_publish(void)
 {
-
     char topic_name[MAX_TOPIC_NAME_LENGTH];
     sys_datacopy(m_in.m_source, (vir_bytes) m_in.m1_p1, PM_PROC_NR, (vir_bytes)topic_name, MAX_TOPIC_NAME_LENGTH);
 
@@ -570,7 +566,6 @@ int topic_publish(void)
     sys_datacopy(m_in.m_source, (vir_bytes) m_in.m1_p2, PM_PROC_NR, (vir_bytes)msg, MAX_MSG_LENGTH);
 
     int pubId = m_in.m1_i1;
-
     StatusCodes mec = publish_message(topic_name, msg, pubId);
     
     return mec;
@@ -591,5 +586,4 @@ int topic_retrieve(void)
         sys_datacopy(PM_PROC_NR, (vir_bytes) (*msg), m_in.m_source,(vir_bytes) m_in.m1_p2, MAX_MSG_LENGTH);
     }
     return mec;
-    
 }

@@ -56,6 +56,7 @@ int do_getepinfo(void);
 int do_getepinfo_o(void);
 int do_svrctl(void);
 int do_getsetpriority(void);
+/* project 2 :: IPC */
 int topic_init(void);
 int topic_create(void);
 int topic_lookup(void);

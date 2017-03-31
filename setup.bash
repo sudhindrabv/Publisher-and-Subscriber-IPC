@@ -1,15 +1,15 @@
-mkdir Project2
-alias proj="cd /root/Project2"
+mkdir custom_ipc
+cd /root/custom_ipc
 
-cp callnr.h /usr/src/include/minix/
-cp table.c /usr/src/servers/pm/
-cp proto.h /usr/src/servers/pm/
-cp misc.c /usr/src/servers/pm/
-cp topic.c /usr/src/servers/pm/
-cp topic.h /usr/src/servers/pm/
+# cp callnr.h /usr/src/include/minix/
+# cp table.c /usr/src/servers/pm/
+# cp proto.h /usr/src/servers/pm/
+# cp misc.c /usr/src/servers/pm/
+# cp topic.c /usr/src/servers/pm/
+# cp topic.h /usr/src/servers/pm/
 
-cd /usr/src/servers/pm/
-make
+# cd /usr/src/servers/pm/
+# make
 # cd /root/project2
 # cp user_ipc.h /usr/include/
 # cd /usr/src/releasetools

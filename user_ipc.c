@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <ctype.h>
 
 #define MAX_TOPICS 10
 #define MAX_TOPICS_SIZE 1200
@@ -45,7 +47,6 @@ void createTopic(){
     status = sys_topic_create(topic);
     
     printf("\nStatus : %s\n", return_codes[status]);
-
 }
 
 void topicLookup(){
@@ -55,6 +56,11 @@ void topicLookup(){
 
     char all_topics[MAX_TOPICS_SIZE];
     status = sys_topic_lookup(all_topics);
+
+    if(status == 1){
+        printf("\nTopic List is Empty\n");
+        return;
+    }
     
     printf("\nRetrieved topics : \n");
     
@@ -75,7 +81,7 @@ void addPublisher(){
     
     char topic[MAX_TOPIC_NAME_LENGTH];
     
-    printf("\nEnter your publisher ID :");
+    printf("\nEnter your publisher ID (Numbers only):");
     scanf("%d",&pubID);
     
     printf("\nEnter a topic :");
@@ -88,7 +94,7 @@ void addPublisher(){
 
 void addSubscriber(){
     
-    printf("\n----Become a subscriber of a topic.----\n");
+    printf("\n----Subscribe to a topic----\n");
     
     int status;
     int subID;
@@ -108,7 +114,7 @@ void addSubscriber(){
 
 void publishMessage(){
     
-    printf("\n----Publish a message to a topic.----\n");
+    printf("\n----Publish a message----\n");
     
     int status;
     int pubID;
@@ -132,9 +138,8 @@ void publishMessage(){
 }
 
 void retrieveMessage(){
-    printf("\n----Message retrieval from a topic----\n");
-    
-    
+    printf("\n----Retrieve a message----\n");
+      
     int status;
     int subID;
     
@@ -144,7 +149,7 @@ void retrieveMessage(){
     char topic[MAX_TOPIC_NAME_LENGTH];
     
     printf("\nEnter a topic :");
-    scanf (" %[^\nsys_topic_publisher]%*c", topic);
+    scanf (" %[^\n]%*c", topic);
     
     char msg1[MAX_MSG_LENGTH];
     
@@ -162,26 +167,29 @@ void retrieveMessage(){
 int main(int argc, char** argv)
 {
     
-    int input=-1;
+    int choice = -1;
     sys_topic_init();
     
     printf("\n\n------------CS 551 :: Publisher & Subscriber IPC :: Team 8----------\n\n");
     
     while(1)
     {
-	printf("\n########## Menu ##########\n");
+        char *input;
+        
+	    printf("\n########## Menu ##########\n");
         printf("1. Create topic. \n");
         printf("2. Become a publisher for a topic. \n");
         printf("3. Become a subscriber for a topic. \n");
         printf("4. Publish a message to a topic. \n");
         printf("5. Retrieve a message from a topic. \n");
         printf("6. Topic lookup. \n");
-        printf("0. Exit \n\n");
+        printf("7. Exit \n");
         
         printf("Make a choice: ");
-        scanf(" %d",&input);
+        scanf(" %s",input);
+        choice = atoi(input);
         
-        switch(input)
+        switch(choice)
         {
             case 1:
                 createTopic();
@@ -201,11 +209,11 @@ int main(int argc, char** argv)
             case 6:
                 topicLookup();
                 break;
-            case 0:
+            case 7:
                 exit(0);
                 break;
             default :
-                printf("\nIncorrect input. Try again. \n");
+                printf("\nIncorrect choice! Try again... \n");
                 break;
         }
     }
