@@ -26,14 +26,14 @@ char *return_codes[]={
     "PUBLISHER_NOT_REGISTERED"
 };
 
-void testTopicCreate();
-void testTopicPublisher();
-void testTopicSubscriber();
-void testTopicPublish();
-void testTopicRetrieve();
-void testTopicLookup();
+void createTopic();
+void addPublisher();
+void addSubscriber();
+void publishMessage();
+void retrieveMessage();
+void topicLookup();
 
-void testTopicCreate(){
+void createTopic(){
     printf("\n----Topic Create----\n");
 
     int status;
@@ -42,19 +42,19 @@ void testTopicCreate(){
     printf("\nEnter a topic :");
     scanf (" %[^\n]%*c", topic);
     
-    status = sys_tcreate(topic);
+    status = sys_topic_create(topic);
     
     printf("\nStatus : %s\n", return_codes[status]);
 
 }
 
-void testTopicLookup(){
+void topicLookup(){
     int status;
     
     printf("\n----Topic Lookup----\n");
 
     char all_topics[MAX_TOPICS_SIZE];
-    status = sys_tlookup(all_topics);
+    status = sys_topic_lookup(all_topics);
     
     printf("\nRetrieved topics : \n");
     
@@ -66,7 +66,7 @@ void testTopicLookup(){
     }
 }
 
-void testTopicPublisher(){
+void addPublisher(){
     
     printf("\n----Become a publisher of a topic.----\n");
     
@@ -81,12 +81,12 @@ void testTopicPublisher(){
     printf("\nEnter a topic :");
     scanf (" %[^\n]%*c", topic);
 
-    status = sys_tpublisher(pubID, topic);
+    status = sys_topic_publisher(pubID, topic);
     printf("\nStatus : %s\n", return_codes[status]);
     
 }
 
-void testTopicSubscriber(){
+void addSubscriber(){
     
     printf("\n----Become a subscriber of a topic.----\n");
     
@@ -101,12 +101,12 @@ void testTopicSubscriber(){
     printf("\nEnter a topic :");
     scanf (" %[^\n]%*c", topic);
 
-    status = sys_tsubscriber(subID, topic);
+    status = sys_topic_subscriber(subID, topic);
     printf("\nStatus : %s\n", return_codes[status]);
     
 }
 
-void testTopicPublish(){
+void publishMessage(){
     
     printf("\n----Publish a message to a topic.----\n");
     
@@ -126,12 +126,12 @@ void testTopicPublish(){
     printf("\nEnter a message :");
     scanf (" %[^\n]%*c", msg);
     
-    status = sys_tpublish(pubID, topic, msg);
+    status = sys_topic_publish(pubID, topic, msg);
     printf("\nStatus : %s\n", return_codes[status]);
     
 }
 
-void testTopicRetrieve(){
+void retrieveMessage(){
     printf("\n----Message retrieval from a topic----\n");
     
     
@@ -144,11 +144,11 @@ void testTopicRetrieve(){
     char topic[MAX_TOPIC_NAME_LENGTH];
     
     printf("\nEnter a topic :");
-    scanf (" %[^\n]%*c", topic);
+    scanf (" %[^\nsys_topic_publisher]%*c", topic);
     
     char msg1[MAX_MSG_LENGTH];
     
-    status = sys_tretrieve(topic, msg1, subID);
+    status = sys_topic_retrieve(topic, msg1, subID);
     printf("\nStatus : %s\n", return_codes[status]);
     
     if(status == 0){
@@ -163,44 +163,43 @@ int main(int argc, char** argv)
 {
     
     int input=-1;
-    sys_tinit();
+    sys_topic_init();
     
-    printf("\n\n------------Project 2----------\n\n");
+    printf("\n\n------------CS 551 :: Publisher & Subscriber IPC :: Team 8----------\n\n");
     
     while(1)
     {
-	printf("\n----------------Available Operations----------------\n");
-        printf("1. Create a topic. \n");
-        printf("2. Become a publisher of a topic. \n");
-        printf("3. Become a subscriber of a topic. \n");
+	printf("\n########## Menu ##########\n");
+        printf("1. Create topic. \n");
+        printf("2. Become a publisher for a topic. \n");
+        printf("3. Become a subscriber for a topic. \n");
         printf("4. Publish a message to a topic. \n");
         printf("5. Retrieve a message from a topic. \n");
         printf("6. Topic lookup. \n");
+        printf("0. Exit \n\n");
         
-        printf("0. Exit the Program \n\n");
-        
-        printf("Please choose one option : ");
+        printf("Make a choice: ");
         scanf(" %d",&input);
         
         switch(input)
         {
             case 1:
-                testTopicCreate();
+                createTopic();
                 break;
             case 2:
-                testTopicPublisher();
+                addPublisher();
                 break;
             case 3:
-                testTopicSubscriber();
+                addSubscriber();
                 break;
             case 4:
-                testTopicPublish();
+                publishMessage();
                 break;
             case 5:
-                testTopicRetrieve();
+                retrieveMessage();
                 break;
             case 6:
-                testTopicLookup();
+                topicLookup();
                 break;
             case 0:
                 exit(0);

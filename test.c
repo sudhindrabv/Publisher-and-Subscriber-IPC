@@ -38,11 +38,11 @@ char *return_codes[]={
     "MSG_BOX_EMPTY"
 };
 
-void testTopicCreate();
-void testTopicPublisher();
-void testTopicSubscriber();
-void testTopicPublish();
-void testTopicRetrieve();
+void createTopic();
+void addPublisher();
+void addSubscriber();
+void publishMessage();
+void retrieveMessage();
 
 void testNullTopic();
 void testDuplicateTopic();
@@ -54,14 +54,14 @@ void testBufferOverFlow();
 void testBufferUnderFlow();
 
 
-void testTopicCreate(){
+void createTopic(){
     int status;
-    sys_tinit();
+    sys_topic_init();
     
     printf("\nTopic Create Test\n");
     
     printf("Adding a topic : TOPIC_1\n");
-    status = sys_tcreate("TOPIC_1");
+    status = sys_topic_create("TOPIC_1");
     
     printf("Status : %s\n", return_codes[status]);
     
@@ -73,30 +73,30 @@ void testTopicCreate(){
     }
 }
 
-void testTopicLookup(){
+void topicLookup(){
     int status;
-    sys_tinit();
+    sys_topic_init();
     
     printf("\nTopic Create Test\n");
     
     printf("Adding a topic : TOPIC_1\n");
-    status = sys_tcreate("TOPIC_1");
+    status = sys_topic_create("TOPIC_1");
     
     printf("Status : %s\n", return_codes[status]);
     
     printf("Adding another topic : TOPIC_2\n");
-    status = sys_tcreate("TOPIC_2");
+    status = sys_topic_create("TOPIC_2");
     
     printf("Status : %s\n", return_codes[status]);
     
     printf("Adding another topic : TOPIC_3\n");
-    status = sys_tcreate("TOPIC_3");
+    status = sys_topic_create("TOPIC_3");
     
     printf("Status : %s\n", return_codes[status]);
     
     printf("Retrieving topics\n");
     char all_topics[MAX_TOPICS_SIZE];
-    status = sys_tlookup(all_topics);
+    status = sys_topic_lookup(all_topics);
     
     printf("Retrieved topics : \n");
     char *token = strtok(all_topics, ";");
@@ -113,19 +113,19 @@ void testTopicLookup(){
     }
 }
 
-void testTopicPublisher(){
+void addPublisher(){
     int status;
-    sys_tinit();
+    sys_topic_init();
     
     printf("\nBecome a publisher of a topic Test\n");
     
     printf("Adding a topic : TOPIC_1\n");
-    status = sys_tcreate("TOPIC_1");
+    status = sys_topic_create("TOPIC_1");
     
     printf("Status : %s\n", return_codes[status]);
     
     printf("Asking to become a publisher of topic : TOPIC_1\n");
-    status = sys_tpublisher(1,"TOPIC_1");
+    status = sys_topic_publisher(1,"TOPIC_1");
     printf("Status : %s\n", return_codes[status]);
     
     if(status == 0){
@@ -136,19 +136,19 @@ void testTopicPublisher(){
     }
 }
 
-void testTopicSubscriber(){
+void addSubscriber(){
     int status;
-    sys_tinit();
+    sys_topic_init();
     
     printf("\nBecome a subscriber of a topic Test\n");
     
     printf("Adding a topic : TOPIC_1\n");
-    status = sys_tcreate("TOPIC_1");
+    status = sys_topic_create("TOPIC_1");
     
     printf("Status : %s\n", return_codes[status]);
     
     printf("Asking to become a subscriber of topic : TOPIC_1\n");
-    status = sys_tsubscriber(1,"TOPIC_1");
+    status = sys_topic_subscriber(1,"TOPIC_1");
     printf("Status : %s\n", return_codes[status]);
     
     if(status == 0){
@@ -159,23 +159,23 @@ void testTopicSubscriber(){
     }
 }
 
-void testTopicPublish(){
+void publishMessage(){
     int status;
-    sys_tinit();
+    sys_topic_init();
     
     printf("\nPublish a message to a topic Test\n");
     
     printf("Adding a topic : TOPIC_1\n");
-    status = sys_tcreate("TOPIC_1");
+    status = sys_topic_create("TOPIC_1");
     
     printf("Status : %s\n", return_codes[status]);
     
     printf("Asking to become a publisher of topic : TOPIC_1\n");
-    status = sys_tpublisher(1,"TOPIC_1");
+    status = sys_topic_publisher(1,"TOPIC_1");
     printf("Status : %s\n", return_codes[status]);
     
     printf("Publishing a message : MESSAGE_1 to topic : TOPIC_1\n");
-    status = sys_tpublish(1,"TOPIC_1","MESSAGE_1");
+    status = sys_topic_publish(1,"TOPIC_1","MESSAGE_1");
     printf("Status : %s\n", return_codes[status]);
     
     if(status == 0){
@@ -186,33 +186,33 @@ void testTopicPublish(){
     }
 }
 
-void testTopicRetrieve(){
+void retrieveMessage(){
     int status;
-    sys_tinit();
+    sys_topic_init();
     
     printf("\nMessage retrieval from a topic Test\n");
     
     printf("Adding a topic : TOPIC_1\n");
-    status = sys_tcreate("TOPIC_1");
+    status = sys_topic_create("TOPIC_1");
     
     printf("Status : %s\n", return_codes[status]);
     
     printf("Asking to become a publisher of topic : TOPIC_1\n");
-    status = sys_tpublisher(1,"TOPIC_1");
+    status = sys_topic_publisher(1,"TOPIC_1");
     printf("Status : %s\n", return_codes[status]);
     
     printf("Publishing a message : MESSAGE_1 to topic : TOPIC_1\n");
-    status = sys_tpublish(1,"TOPIC_1","MESSAGE_1");
+    status = sys_topic_publish(1,"TOPIC_1","MESSAGE_1");
     printf("Status : %s\n", return_codes[status]);
     
     printf("Asking to become a subscriber of topic : TOPIC_1\n");
-    status = sys_tsubscriber(2,"TOPIC_1");
+    status = sys_topic_subscriber(2,"TOPIC_1");
     printf("Status : %s\n", return_codes[status]);
     
     char msg1[MAX_MSG_LENGTH];
     
     printf("Retrieving the first message from topic : TOPIC_1\n");
-    status = sys_tretrieve("TOPIC_1", msg1, 2);
+    status = sys_topic_retrieve("TOPIC_1", msg1, 2);
     printf("Status : %s\n", return_codes[status]);
     
     if(status == 0){
@@ -230,12 +230,12 @@ void testTopicRetrieve(){
 
 void testNullTopic(){
     int status;
-    sys_tinit();
+    sys_topic_init();
     
     printf("\nNull Topic Test\n");
     
     printf("Adding a null topic\n");
-    status = sys_tcreate("");
+    status = sys_topic_create("");
     
     printf("Status : %s\n", return_codes[status]);
     
@@ -249,17 +249,17 @@ void testNullTopic(){
 
 void testDuplicateTopic(){
     int status;
-    sys_tinit();
+    sys_topic_init();
     
     printf("\nDuplicate Topic Test\n");
     
     printf("Adding a topic : TOPIC_1\n");
-    status = sys_tcreate("TOPIC_1");
+    status = sys_topic_create("TOPIC_1");
     
     printf("Status : %s\n", return_codes[status]);
     
     printf("Adding again the topic : TOPIC_1\n");
-    status = sys_tcreate("TOPIC_1");
+    status = sys_topic_create("TOPIC_1");
     printf("Status : %s\n", return_codes[status]);
     
     if(status == 10){
@@ -272,17 +272,17 @@ void testDuplicateTopic(){
 
 void testPublishTopicNotFound(){
     int status;
-    sys_tinit();
+    sys_topic_init();
     
     printf("\nBecome a publisher of unavailable topic Test\n");
     
     printf("Adding a topic : TOPIC_1\n");
-    status = sys_tcreate("TOPIC_1");
+    status = sys_topic_create("TOPIC_1");
     
     printf("Status : %s\n", return_codes[status]);
     
     printf("Asking to become a publisher of unavailable topic : TOPIC_20\n");
-    status = sys_tpublisher(1,"TOPIC_20");
+    status = sys_topic_publisher(1,"TOPIC_20");
     printf("Status : %s\n", return_codes[status]);
     
     if(status == 3){
@@ -295,17 +295,17 @@ void testPublishTopicNotFound(){
 
 void testSubscribeTopicNotFound(){
     int status;
-    sys_tinit();
+    sys_topic_init();
     
     printf("\nBecome a subscriber of unavailable topic Test\n");
     
     printf("Adding a topic : TOPIC_1\n");
-    status = sys_tcreate("TOPIC_1");
+    status = sys_topic_create("TOPIC_1");
     
     printf("Status : %s\n", return_codes[status]);
     
     printf("Asking to become a subscriber of unavailable topic : TOPIC_20\n");
-    status = sys_tsubscriber(1,"TOPIC_20");
+    status = sys_topic_subscriber(1,"TOPIC_20");
     printf("Status : %s\n", return_codes[status]);
     
     if(status == 3){
@@ -318,21 +318,21 @@ void testSubscribeTopicNotFound(){
 
 void testDuplicatePublisher(){
     int status;
-    sys_tinit();
+    sys_topic_init();
     
     printf("\nDuplicate publisher of a topic Test\n");
     
     printf("Adding a topic : TOPIC_1\n");
-    status = sys_tcreate("TOPIC_1");
+    status = sys_topic_create("TOPIC_1");
     
     printf("Status : %s\n", return_codes[status]);
     
     printf("Asking to become a publisher of topic : TOPIC_1\n");
-    status = sys_tpublisher(1,"TOPIC_1");
+    status = sys_topic_publisher(1,"TOPIC_1");
     printf("Status : %s\n", return_codes[status]);
     
     printf("Asking again to become a publisher of topic : TOPIC_1\n");
-    status = sys_tpublisher(1,"TOPIC_1");
+    status = sys_topic_publisher(1,"TOPIC_1");
     printf("Status : %s\n", return_codes[status]);
     
     if(status == 4){
@@ -345,21 +345,21 @@ void testDuplicatePublisher(){
 
 void testDuplicateSubscriber(){
     int status;
-    sys_tinit();
+    sys_topic_init();
     
     printf("\nDuplicate subscriber of a topic Test\n");
     
     printf("Adding a topic : TOPIC_1\n");
-    status = sys_tcreate("TOPIC_1");
+    status = sys_topic_create("TOPIC_1");
     
     printf("Status : %s\n", return_codes[status]);
     
     printf("Asking to become a subscriber of topic : TOPIC_1\n");
-    status = sys_tsubscriber(1,"TOPIC_1");
+    status = sys_topic_subscriber(1,"TOPIC_1");
     printf("Status : %s\n", return_codes[status]);
     
     printf("Asking again to become a subscriber of topic : TOPIC_1\n");
-    status = sys_tsubscriber(1,"TOPIC_1");
+    status = sys_topic_subscriber(1,"TOPIC_1");
     printf("Status : %s\n", return_codes[status]);
     
     if(status == 5){
@@ -372,41 +372,41 @@ void testDuplicateSubscriber(){
 
 void testBufferOverFlow(){
     int status;
-    sys_tinit();
+    sys_topic_init();
     
     printf("\nMessage buffer overflow of a topic Test\n");
     
     printf("Adding a topic : TOPIC_1\n");
-    status = sys_tcreate("TOPIC_1");
+    status = sys_topic_create("TOPIC_1");
     
     printf("Status : %s\n", return_codes[status]);
     
     printf("Asking to become a publisher of topic : TOPIC_1\n");
-    status = sys_tpublisher(1,"TOPIC_1");
+    status = sys_topic_publisher(1,"TOPIC_1");
     printf("Status : %s\n", return_codes[status]);
     
     printf("Publishing a message : MESSAGE_1 to topic : TOPIC_1\n");
-    status = sys_tpublish(1,"TOPIC_1","MESSAGE_1");
+    status = sys_topic_publish(1,"TOPIC_1","MESSAGE_1");
     printf("Status : %s\n", return_codes[status]);
     
     printf("Publishing a message : MESSAGE_2 to topic : TOPIC_1\n");
-    status = sys_tpublish(1,"TOPIC_1","MESSAGE_2");
+    status = sys_topic_publish(1,"TOPIC_1","MESSAGE_2");
     printf("Status : %s\n", return_codes[status]);
     
     printf("Publishing a message : MESSAGE_3 to topic : TOPIC_1\n");
-    status = sys_tpublish(1,"TOPIC_1","MESSAGE_3");
+    status = sys_topic_publish(1,"TOPIC_1","MESSAGE_3");
     printf("Status : %s\n", return_codes[status]);
     
     printf("Publishing a message : MESSAGE_4 to topic : TOPIC_1\n");
-    status = sys_tpublish(1,"TOPIC_1","MESSAGE_4");
+    status = sys_topic_publish(1,"TOPIC_1","MESSAGE_4");
     printf("Status : %s\n", return_codes[status]);
     
     printf("Publishing a message : MESSAGE_5 to topic : TOPIC_1\n");
-    status = sys_tpublish(1,"TOPIC_1","MESSAGE_5");
+    status = sys_topic_publish(1,"TOPIC_1","MESSAGE_5");
     printf("Status : %s\n", return_codes[status]);
     
     printf("Publishing a message : MESSAGE_6 to topic : TOPIC_1\n");
-    status = sys_tpublish(1,"TOPIC_1","MESSAGE_6");
+    status = sys_topic_publish(1,"TOPIC_1","MESSAGE_6");
     printf("Status : %s\n", return_codes[status]);
     
     
@@ -420,35 +420,35 @@ void testBufferOverFlow(){
 
 void testBufferUnderFlow(){
     int status;
-    sys_tinit();
+    sys_topic_init();
     
     printf("\nMessage buffer underflow of a topic Test\n");
     
     printf("Adding a topic : TOPIC_1\n");
-    status = sys_tcreate("TOPIC_1");
+    status = sys_topic_create("TOPIC_1");
     
     printf("Status : %s\n", return_codes[status]);
     
     printf("Asking to become a publisher of topic : TOPIC_1\n");
-    status = sys_tpublisher(1,"TOPIC_1");
+    status = sys_topic_publisher(1,"TOPIC_1");
     printf("Status : %s\n", return_codes[status]);
     
     printf("Publishing a message : MESSAGE_1 to topic : TOPIC_1\n");
-    status = sys_tpublish(1,"TOPIC_1","MESSAGE_1");
+    status = sys_topic_publish(1,"TOPIC_1","MESSAGE_1");
     printf("Status : %s\n", return_codes[status]);
     
     printf("Publishing a message : MESSAGE_2 to topic : TOPIC_1\n");
-    status = sys_tpublish(1,"TOPIC_1","MESSAGE_2");
+    status = sys_topic_publish(1,"TOPIC_1","MESSAGE_2");
     printf("Status : %s\n", return_codes[status]);
     
     printf("Asking to become a subscriber of topic : TOPIC_1\n");
-    status = sys_tsubscriber(2,"TOPIC_1");
+    status = sys_topic_subscriber(2,"TOPIC_1");
     printf("Status : %s\n", return_codes[status]);
     
     char msg1[MAX_MSG_LENGTH];
     
     printf("Retrieving the first message from topic : TOPIC_1\n");
-    status = sys_tretrieve("TOPIC_1", msg1, 2);
+    status = sys_topic_retrieve("TOPIC_1", msg1, 2);
     printf("Status : %s\n", return_codes[status]);
     
     if(status == 0){
@@ -460,7 +460,7 @@ void testBufferUnderFlow(){
     
     char msg2[MAX_MSG_LENGTH];
     printf("Retrieving the second message from topic : TOPIC_1\n");
-    status = sys_tretrieve("TOPIC_1", msg2, 2);
+    status = sys_topic_retrieve("TOPIC_1", msg2, 2);
     printf("Status : %s\n", return_codes[status]);
     
     if(status == 0){
@@ -472,7 +472,7 @@ void testBufferUnderFlow(){
     
     char msg3[MAX_MSG_LENGTH];
     printf("Retrieving the third (unavailable) message from topic : TOPIC_1\n");
-    status = sys_tretrieve("TOPIC_1", msg3, 2);
+    status = sys_topic_retrieve("TOPIC_1", msg3, 2);
     printf("Status : %s\n", return_codes[status]);
     
     if(status == 9){
@@ -517,19 +517,19 @@ int main(int argc, char** argv)
         switch(input)
         {
             case 1:
-                testTopicCreate();
+                createTopic();
                 break;
             case 2:
-                testTopicPublisher();
+                addPublisher();
                 break;
             case 3:
-                testTopicSubscriber();
+                addSubscriber();
                 break;
             case 4:
-                testTopicPublish();
+                publishMessage();
                 break;
             case 5:
-                testTopicRetrieve();
+                retrieveMessage();
                 break;
             case 6:
                 testNullTopic();
@@ -556,7 +556,7 @@ int main(int argc, char** argv)
                 testBufferUnderFlow();
                 break;
             case 14:
-                testTopicLookup();
+                topicLookup();
                 break;
             case 0:
                 exit(0);

@@ -128,26 +128,14 @@ StatusCodes add_publisher_to_topic(char topic_name[], int pubId)
 	}
 	if(!foundFlag)
 		return TOPIC_NOT_FOUND;
-#if DEBUG_MODE
-	printf("Topic Index:%d\n", i);
-#endif
 
-	/* Topic name matched at index i. Now add publisher */
-
-	/*Check if duplicate before adding */
 	pub_ind = getPublisherIndex(i, pubId); 
 	if(pub_ind != -1)
 		return DUPLICATE_PUBLISHER;
 
-	//Adding publisher
 	TopicsList[i].publishers.pubList[TopicsList[i].publishers.count] = pubId;
-#if DEBUG_MODE
-	printf("Publisher Index:%d\n", TopicsList[i].publishers.count);
-#endif
 	TopicsList[i].publishers.count++;
-#if DEBUG_MODE
-	printf("Publisher Index:%d\n", TopicsList[i].publishers.count);
-#endif
+
 	return OPERATION_SUCCESS;
 }
 
@@ -203,20 +191,14 @@ StatusCodes publish_message(char topic_name[], char msg[], int pubId)
 	if(!foundFlag)
 		return TOPIC_NOT_FOUND;
 
-	/* Topic name matched at index i. Now add msg */
-#if DEBUG_MODE
-	printf("Topic Index:%d\n", i);
-#endif
 
 	//printf("Pub Id in topic:%d\n", pubId);
-	int pub_ind = getPublisherIndexex(i, pubId); 
+	int pub_ind = getPublisherIndex(i, pubId); 
 	if(pub_ind == -1)
 		return PUBLISHER_NOT_REGISTERED;
 
 	int emptySlot = findEmptyItemSlot(i);
-#if DEBUG_MODE
-	printf("EmptySlot:%d\n", emptySlot);
-#endif
+
 	if(emptySlot == -1)
 		return MSG_BOX_FULL;
 
@@ -244,9 +226,7 @@ StatusCodes retrieve_message(char topic_name[], char *msg[], int subsId)
 	}
 	if(!foundFlag)
 		return TOPIC_NOT_FOUND;
-#if DEBUG_MODE
-	printf("Topic Index:%d\n", i);
-#endif
+
 	int topic_index = i;
 	/* Topic name matched at index i */
 
@@ -264,9 +244,7 @@ StatusCodes retrieve_message(char topic_name[], char *msg[], int subsId)
 	if(!found_flag)
 		return TOPIC_NOT_SUBSCRIBED;
 
-#if DEBUG_MODE
-	printf("Valid Subscriber\n");
-#endif
+
 	/* Subscriber is valid subscriber */
 	/* Parse through the item list and return the item which subscriber has not yet read */
 	int item_present_to_read=0;
@@ -283,9 +261,7 @@ StatusCodes retrieve_message(char topic_name[], char *msg[], int subsId)
 				break; /* There is a match. Thus this msg is already read by subscriber. So move to next item */
 			}
 		}
-#if DEBUG_MODE
-	printf("isReadFlag:%d i:%d \n", isReadFlag, i);
-#endif
+
 		if(!isReadFlag)
 		{
 			/* ith item is not read by subscriber. So, read this item */
