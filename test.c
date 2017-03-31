@@ -1,5 +1,7 @@
 #include <user_ipc.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define MAX_TOPICS 10
 #define MAX_TOPIC_NAME_LENGTH 100
@@ -24,37 +26,38 @@ typedef int StatusCodes;
 #define MSG_BOX_EMPTY 11
 
 char *return_codes[]={
-    "OPERATION_SUCCESS",
-    "TOPIC_EMPTY",
-    "TOPICS_FULL",
-    "TOPIC_NAME_LENGTH_EXCEEDED",
-    "TOPIC_NOT_FOUND",
-    "TOPIC_NOT_SUBSCRIBED",
-    "DUPLICATE_TOPIC",
-    "DUPLICATE_PUBLISHER",
-    "DUPLICATE_SUBSCRIBER",
-    "MSG_LENGTH_EXCEEDED",
-    "MSG_BOX_FULL",
-    "MSG_BOX_EMPTY"
+    "Operation Success",
+    "Topic is Empty",
+    "Topic is full",
+    "Topic Name Length Exceeded",
+    "Topic Not Available",
+    "Topic Not Subscribed",
+    "Duplicate Topic",
+    "Duplicate Publisher",
+    "Duplicate Subscriber",
+    "Message Length Exceeded",
+    "Message Box Full",
+    "Message Box Empty",
+    "Pubisher Not Registered"
 };
 
-void createTopic();
-void addPublisher();
-void addSubscriber();
-void publishMessage();
-void retrieveMessage();
+void createTopicTest();
+void addPublisherTest();
+void addSubscriberTest();
+void publishMessageTest();
+void retrieveMessageTest();
 
-void testNullTopic();
-void testDuplicateTopic();
-void testPublishTopicNotFound();
-void testSubscribeTopicNotFound();
-void testDuplicatePublisher();
-void testDuplicateSubscriber();
-void testBufferOverFlow();
-void testBufferUnderFlow();
+void nullTopicTest();
+void duplicateTopicTest();
+void publishTopicNotFoundTest();
+void subscribeTopicNotFoundTest();
+void duplicatePublisherTest();
+void duplicateSubscriberTest();
+void bufferOverFlowTest();
+void bufferUnderFlowTest();
 
 
-void createTopic(){
+void createTopicTest(){
     int status;
     sys_topic_init();
     
@@ -73,7 +76,7 @@ void createTopic(){
     }
 }
 
-void topicLookup(){
+void topicLookupTest(){
     int status;
     sys_topic_init();
     
@@ -113,7 +116,7 @@ void topicLookup(){
     }
 }
 
-void addPublisher(){
+void addPublisherTest(){
     int status;
     sys_topic_init();
     
@@ -136,7 +139,7 @@ void addPublisher(){
     }
 }
 
-void addSubscriber(){
+void addSubscriberTest(){
     int status;
     sys_topic_init();
     
@@ -159,7 +162,7 @@ void addSubscriber(){
     }
 }
 
-void publishMessage(){
+void publishMessageTest(){
     int status;
     sys_topic_init();
     
@@ -186,7 +189,7 @@ void publishMessage(){
     }
 }
 
-void retrieveMessage(){
+void retrieveMessageTest(){
     int status;
     sys_topic_init();
     
@@ -228,7 +231,7 @@ void retrieveMessage(){
 
 
 
-void testNullTopic(){
+void nullTopicTest(){
     int status;
     sys_topic_init();
     
@@ -247,7 +250,7 @@ void testNullTopic(){
     }
 }
 
-void testDuplicateTopic(){
+void duplicateTopicTest(){
     int status;
     sys_topic_init();
     
@@ -262,7 +265,7 @@ void testDuplicateTopic(){
     status = sys_topic_create("TOPIC_1");
     printf("Status : %s\n", return_codes[status]);
     
-    if(status == 10){
+    if(status == 6){
         printf("Test Passed\n");
     }
     else{
@@ -270,7 +273,7 @@ void testDuplicateTopic(){
     }
 }
 
-void testPublishTopicNotFound(){
+void publishTopicNotFoundTest(){
     int status;
     sys_topic_init();
     
@@ -285,7 +288,7 @@ void testPublishTopicNotFound(){
     status = sys_topic_publisher(1,"TOPIC_20");
     printf("Status : %s\n", return_codes[status]);
     
-    if(status == 3){
+    if(status == 4){
         printf("Test Passed\n");
     }
     else{
@@ -293,7 +296,7 @@ void testPublishTopicNotFound(){
     }
 }
 
-void testSubscribeTopicNotFound(){
+void subscribeTopicNotFoundTest(){
     int status;
     sys_topic_init();
     
@@ -308,7 +311,7 @@ void testSubscribeTopicNotFound(){
     status = sys_topic_subscriber(1,"TOPIC_20");
     printf("Status : %s\n", return_codes[status]);
     
-    if(status == 3){
+    if(status == 4){
         printf("Test Passed\n");
     }
     else{
@@ -316,7 +319,7 @@ void testSubscribeTopicNotFound(){
     }
 }
 
-void testDuplicatePublisher(){
+void duplicatePublisherTest(){
     int status;
     sys_topic_init();
     
@@ -335,7 +338,7 @@ void testDuplicatePublisher(){
     status = sys_topic_publisher(1,"TOPIC_1");
     printf("Status : %s\n", return_codes[status]);
     
-    if(status == 4){
+    if(status == 7){
         printf("Test Passed\n");
     }
     else{
@@ -343,7 +346,7 @@ void testDuplicatePublisher(){
     }
 }
 
-void testDuplicateSubscriber(){
+void duplicateSubscriberTest(){
     int status;
     sys_topic_init();
     
@@ -362,7 +365,7 @@ void testDuplicateSubscriber(){
     status = sys_topic_subscriber(1,"TOPIC_1");
     printf("Status : %s\n", return_codes[status]);
     
-    if(status == 5){
+    if(status == 8){
         printf("Test Passed\n");
     }
     else{
@@ -370,7 +373,7 @@ void testDuplicateSubscriber(){
     }
 }
 
-void testBufferOverFlow(){
+void bufferOverFlowTest(){
     int status;
     sys_topic_init();
     
@@ -410,7 +413,7 @@ void testBufferOverFlow(){
     printf("Status : %s\n", return_codes[status]);
     
     
-    if(status == 7){
+    if(status == 10){
         printf("Test Passed\n");
     }
     else{
@@ -418,7 +421,7 @@ void testBufferOverFlow(){
     }
 }
 
-void testBufferUnderFlow(){
+void bufferUnderFlowTest(){
     int status;
     sys_topic_init();
     
@@ -475,7 +478,7 @@ void testBufferUnderFlow(){
     status = sys_topic_retrieve("TOPIC_1", msg3, 2);
     printf("Status : %s\n", return_codes[status]);
     
-    if(status == 9){
+    if(status == 11){
         printf("Test Passed\n");
     }
     else{
@@ -487,13 +490,14 @@ void testBufferUnderFlow(){
 int main(int argc, char** argv)
 {
     
-    int input=-1;
+     int choice = -1;
     
     printf("\nProject 2 Testing\n");
     
     while(1)
     {
-	printf("\n----------------Available Tests----------------\n");
+        char *input;
+	    printf("\n----------------Available Tests----------------\n");
         printf("1. Create a topic. \n");
         printf("2. Become a publisher of a topic. \n");
         printf("3. Become a subscriber of a topic. \n");
@@ -509,56 +513,57 @@ int main(int argc, char** argv)
         printf("13. Message Buffer Underflow (no more messages available.) \n");
         printf("14. Test lookup of topics \n");
         
-        printf("0. Exit the Program \n\n");
+        printf("15. Exit the Program \n\n");
         
         printf("Please choose one option : ");
-        scanf(" %d",&input);
+        scanf(" %s",input);
+        choice = atoi(input);
         
-        switch(input)
+        switch(choice)
         {
             case 1:
-                createTopic();
+                createTopicTest();
                 break;
             case 2:
-                addPublisher();
+                addPublisherTest();
                 break;
             case 3:
-                addSubscriber();
+                addSubscriberTest();
                 break;
             case 4:
-                publishMessage();
+                publishMessageTest();
                 break;
             case 5:
-                retrieveMessage();
+                retrieveMessageTest();
                 break;
             case 6:
-                testNullTopic();
+                nullTopicTest();
                 break;
             case 7:
-                testDuplicateTopic();
+                duplicateTopicTest();
                 break;
             case 8:
-                testPublishTopicNotFound();
+                publishTopicNotFoundTest();
                 break;
             case 9:
-                testSubscribeTopicNotFound();
+                subscribeTopicNotFoundTest();
                 break;
             case 10:
-                testDuplicatePublisher();
+                duplicatePublisherTest();
                 break;
             case 11:
-                testDuplicateSubscriber();
+                duplicateSubscriberTest();
                 break;
             case 12:
-                testBufferOverFlow();
+                bufferOverFlowTest();
                 break;
             case 13:
-                testBufferUnderFlow();
+                bufferUnderFlowTest();
                 break;
             case 14:
-                topicLookup();
+                topicLookupTest();
                 break;
-            case 0:
+            case 15:
                 exit(0);
                 break;
             default :
