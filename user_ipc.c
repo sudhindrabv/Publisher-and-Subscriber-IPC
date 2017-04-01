@@ -13,19 +13,19 @@
 #define MAX_MSG_LENGTH 100
 
 char *return_codes[]={
-    "OPERATION_SUCCESS",
-    "TOPIC_EMPTY",
-    "TOPICS_FULL",
-    "TOPIC_NAME_LENGTH_EXCEEDED",
-    "TOPIC_NOT_FOUND",
-    "TOPIC_NOT_SUBSCRIBED",
-    "DUPLICATE_TOPIC",
-    "DUPLICATE_PUBLISHER",
-    "DUPLICATE_SUBSCRIBER",
-    "MSG_LENGTH_EXCEEDED",
-    "MSG_BOX_FULL",
-    "MSG_BOX_EMPTY",
-    "PUBLISHER_NOT_REGISTERED"
+    "Operation Success",
+    "Topic List is Empty",
+    "Topic List is full",
+    "Topic Name Length Exceeded",
+    "Topic Not Available",
+    "Topic Not Subscribed",
+    "Duplicate Topic",
+    "Duplicate Publisher",
+    "Duplicate Subscriber",
+    "Message Length Exceeded",
+    "Message Box Full",
+    "Message Box Empty",
+    "Publisher Not Registered"
 };
 
 void createTopic();
