@@ -14,8 +14,8 @@
 
 char *return_codes[]={
     "Operation Success",
-    "Topic is Empty",
-    "Topic is full",
+    "Topic List is Empty",
+    "Topic List is full",
     "Topic Name Length Exceeded",
     "Topic Not Available",
     "Topic Not Subscribed",
@@ -25,7 +25,7 @@ char *return_codes[]={
     "Message Length Exceeded",
     "Message Box Full",
     "Message Box Empty",
-    "Pubisher Not Registered"
+    "Publisher Not Registered"
 };
 
 void createTopic();
