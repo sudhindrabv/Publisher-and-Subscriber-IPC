@@ -587,3 +587,16 @@ int topic_retrieve(void)
     }
     return mec;
 }
+
+int topic_overview(void)
+{    
+   topics_overview();
+    return 0;
+}
+
+int topic_detail(void)
+{
+    int topicId = m_in.m1_i1;
+    topic_details(topicId);
+    return 0;
+}

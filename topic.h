@@ -68,3 +68,5 @@ StatusCodes add_subscriber_to_topic(char topic_name[], int subId);
 StatusCodes publish_messsage(char topic_name[], char msg[], int pubId);
 StatusCodes retrieve_message(char topic_name[], char **msg, int subsId); 
 StatusCodes lookup_topics(char *topics);
+void topics_overview();
+void topic_details(int topicIndex);

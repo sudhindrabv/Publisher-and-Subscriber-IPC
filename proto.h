@@ -64,6 +64,8 @@ int topic_publisher(void);
 int topic_subscriber(void);
 int topic_publish(void);
 int topic_retrieve(void);
+int topic_overview(void);
+int topic_detail(void);
 
 
 /* schedule.c */

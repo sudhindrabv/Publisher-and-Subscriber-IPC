@@ -60,3 +60,16 @@ int sys_topic_retrieve(char *topic_name, char *msg, int subId)
     
     return ( _syscall(PM_PROC_NR, TOPIC_RETRIEVE, &m));
 }
+
+int sys_topics_overview()
+{
+    message m;
+    return ( _syscall(PM_PROC_NR, TOPIC_OVERVIEW, &m));
+}
+
+int sys_topic_details(int topicId)
+{
+    message m;
+    m.m1_i1 = topicId;
+    return ( _syscall(PM_PROC_NR, TOPIC_DETAIL, &m));
+}

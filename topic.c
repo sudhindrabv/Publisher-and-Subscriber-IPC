@@ -276,3 +276,68 @@ StatusCodes retrieve_message(char topic_name[], char *msg[], int subsId)
 		return MSG_BOX_EMPTY;
 	return OPERATION_SUCCESS;
 }
+
+void topics_overview()
+{
+	printf("TOPICS LIST:\n");
+	for(int i = 0; i < topicCount; i++)
+	{
+		printf("TOPIC %d:%s\n", i, TopicsList[i].topic_name); 
+		printf("Publishers List:%d  - publisher ", TopicsList[i].publishers.count);
+		for(int j = 0; j < TopicsList[i].publishers.count; j++)
+		{
+			printf("%d,", TopicsList[i].publishers.pubList[j]);
+		}
+		printf("\n");
+		printf("Subscribers List:%d  - subscriber ", TopicsList[i].subscribers.count);
+		for(int j = 0; j < TopicsList[i].subscribers.count; j++)
+		{
+			printf("%d,", TopicsList[i].subscribers.subList[j]);
+		}
+		printf("\n");
+		printf("Items List:\n");
+		for(int j = 0; j < 5; j++)
+		{
+			if(!TopicsList[i].msgItemsList.itemsList[j].isDeleted)
+			{
+				printf("Item %d:%s:\n", j,  TopicsList[i].msgItemsList.itemsList[j].msg);
+				printf("read_subscriber_count:%d   ", TopicsList[i].msgItemsList.itemsList[j].read_subscriber_count);
+				for(int k = 0; k < TopicsList[i].msgItemsList.itemsList[j].read_subscriber_count; k++)
+				{
+					printf("%d,",TopicsList[i].msgItemsList.itemsList[j].subsList[k]);
+				}
+			}
+		}
+	}
+}
+
+void topic_details(int topic_index)
+{
+	int i=topic_index;
+	printf("TOPIC %d:%s\n", i, TopicsList[i].topic_name); 
+	printf("Publishers List:%d  - publisher ", TopicsList[i].publishers.count);
+	for(int j = 0; j < TopicsList[i].publishers.count; j++)
+	{
+		printf("%d,", TopicsList[i].publishers.pubList[j]);
+	}
+	printf("\n");
+	printf("Subscribers List:%d  - subscriber ", TopicsList[i].subscribers.count);
+	for(int j = 0; j < TopicsList[i].subscribers.count; j++)
+	{
+		printf("%d,", TopicsList[i].subscribers.subList[j]);
+	}
+	printf("\n");
+	printf("Items List:\n");
+	for(int j = 0; j < 5; j++)
+	{
+		if(!TopicsList[i].msgItemsList.itemsList[j].isDeleted)
+		{
+			printf("Item %d:%s:\n", j,  TopicsList[i].msgItemsList.itemsList[j].msg);
+			printf("read_subscriber_count:%d   ", TopicsList[i].msgItemsList.itemsList[j].read_subscriber_count);
+			for(int k = 0; k < TopicsList[i].msgItemsList.itemsList[j].read_subscriber_count; k++)
+			{
+				printf("%d,",TopicsList[i].msgItemsList.itemsList[j].subsList[k]);
+			}
+		}
+	}
+}

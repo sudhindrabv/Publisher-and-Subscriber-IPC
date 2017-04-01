@@ -14,8 +14,8 @@
 
 char *return_codes[]={
     "Operation Success",
-    "Topic List is Empty",
-    "Topic List is full",
+    "Topic is Empty",
+    "Topic is full",
     "Topic Name Length Exceeded",
     "Topic Not Available",
     "Topic Not Subscribed",
@@ -162,7 +162,18 @@ void retrieveMessage(){
     
 }
 
+void topics_overview(){
+    sys_topics_overview();
+}
 
+void topic_details(){
+    int topicID;
+    
+    printf("\nEnter Topic ID :");
+    scanf("%d",&topicID);
+
+    sys_topic_details(topicID);
+}
 
 int main(int argc, char** argv)
 {
@@ -183,7 +194,8 @@ int main(int argc, char** argv)
         printf("4. Publish a message to a topic. \n");
         printf("5. Retrieve a message from a topic. \n");
         printf("6. Topic lookup. \n");
-        printf("7. Exit \n");
+        printf("7. All Topics details. \n");
+        printf("8. Exit \n");
         
         printf("Make a choice: ");
         scanf(" %s",input);
@@ -210,6 +222,9 @@ int main(int argc, char** argv)
                 topicLookup();
                 break;
             case 7:
+                topics_overview();
+                break;
+            case 8:
                 exit(0);
                 break;
             default :
